@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: Music Product API
+  datasource:
+    url: jdbc:h2:file:./data/demo
+    username: mpapi
+    password: mpapi-password
+    driverClassName: org.h2.Driver
+  jpa:
+    defer-datasource-initialization: true
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+  h2:
+    console:
+      enabled: true
+  sql:
+    init:
+      schema-locations: classpath:schema.sql
+      data-locations: classpath:data.sql
+      mode: always
+      continue-on-error: false
