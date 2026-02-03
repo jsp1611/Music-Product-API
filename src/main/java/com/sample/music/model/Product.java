@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 /**
@@ -31,14 +32,14 @@ public class Product {
     @Column(name = "LABEL")
     private String label;
 
-    @Column(name = "PRICE_GBP")
-    private String priceGbp;
+    @Column(name = "PRICE_GBP", precision = 10, scale = 2)
+    private BigDecimal priceGbp;
 
-    @Column(name = "PRICE_USD")
-    private String priceUsd;
+    @Column(name = "PRICE_USD", precision = 10, scale = 2)
+    private BigDecimal priceUsd;
 
-    @Column(name = "PRICE_EUR")
-    private String priceEur;
+    @Column(name = "PRICE_EUR", precision = 10, scale = 2)
+    private BigDecimal priceEur;
 
     @Column(name = "RELEASE_DATE")
     private LocalDate releaseDate;

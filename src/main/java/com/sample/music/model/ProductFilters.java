@@ -24,8 +24,10 @@ public class ProductFilters {
 
     private ProductField sortField;
 
-    private List<FieldFilter> fieldFilters;
+    private List<FieldFilter<?>> fieldFilters;
 
+    // Builder class providing defaults for fields that are required but may not be specified
+    // in the request
     public static class Builder {
 
         // Default if not supplied is 10
@@ -41,7 +43,7 @@ public class ProductFilters {
         private ProductField sortField = ProductField.RELEASE_DATE;
 
         // Field filters, empty by default
-        private List<FieldFilter> fieldFilters = new ArrayList<>();
+        private final List<FieldFilter<?>> fieldFilters = new ArrayList<>();
 
         public Builder pageSize(final Integer pageSize) {
             if (pageSize != null) {

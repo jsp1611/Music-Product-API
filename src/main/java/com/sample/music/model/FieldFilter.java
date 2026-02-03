@@ -1,7 +1,7 @@
 package com.sample.music.model;
 
 /**
- * A marker interface fof field filters.
+ * A marker interface for field filters.
  */
 public interface FieldFilter<T> {
 

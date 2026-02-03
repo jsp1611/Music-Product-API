@@ -3,6 +3,7 @@ package com.sample.music.dto;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 /**
@@ -19,11 +20,11 @@ public class CreateProductRequest {
 
     private String label;
 
-    private String priceGbp;
+    private BigDecimal priceGbp;
 
-    private String priceUsd;
+    private BigDecimal priceUsd;
 
-    private String priceEur;
+    private BigDecimal priceEur;
 
     private LocalDate releaseDate;
 

@@ -25,13 +25,16 @@ public class ProductSpecification {
     private static Specification<Product> toSpec(final LocalDateFieldFilter fieldFilter) {
         if (fieldFilter.filterType().equals(FilterType.EQUAL_TO)) {
             return (root, query, criteriaBuilder) ->
-                    criteriaBuilder.equal(root.get(fieldFilter.field().getFieldName()), fieldFilter.value());
+                    criteriaBuilder.equal(root.get(
+                            fieldFilter.field().getFieldName()), fieldFilter.value());
         } else if (fieldFilter.filterType().equals(FilterType.LESS_THAN_OR_EQUAL_TO)) {
             return (root, query, criteriaBuilder) ->
-                    criteriaBuilder.lessThanOrEqualTo(root.get(fieldFilter.field().getFieldName()), fieldFilter.value());
+                    criteriaBuilder.lessThanOrEqualTo(root.get(
+                            fieldFilter.field().getFieldName()), fieldFilter.value());
         } else if (fieldFilter.filterType().equals(FilterType.GREATER_THAN_OR_EQUAL_TO)) {
             return (root, query, criteriaBuilder) ->
-                    criteriaBuilder.greaterThanOrEqualTo(root.get(fieldFilter.field().getFieldName()), fieldFilter.value());
+                    criteriaBuilder.greaterThanOrEqualTo(root.get(
+                            fieldFilter.field().getFieldName()), fieldFilter.value());
         } else {
             throw new IllegalArgumentException("Unsupported FilterType for LocalDateFilter");
         }

@@ -1,7 +1,5 @@
 package com.sample.music.service;
 
-import com.sample.music.dto.CreateProductRequest;
-import com.sample.music.dto.UpdateProductRequest;
 import com.sample.music.exception.MissingProductException;
 import com.sample.music.model.Product;
 import com.sample.music.model.ProductFilters;
@@ -26,7 +24,7 @@ import java.util.Optional;
 @Service
 public class ProductService {
 
-    private ProductRepository productRepository;
+    private final ProductRepository productRepository;
 
     public ProductService(ProductRepository productRepository) {
         this.productRepository = productRepository;
@@ -39,7 +37,7 @@ public class ProductService {
      * @return the product that was deleted
      */
     public Product delete(final long id) {
-        log.info("Deleting product with id: {}", id);
+        log.info("Deleting Product with id: {}", id);
         final Optional<Product> productOpt = productRepository.findById(id);
         final Product toDelete = productOpt.orElseThrow(() -> new MissingProductException(id));
         productRepository.deleteById(id);
@@ -47,16 +45,14 @@ public class ProductService {
     }
 
     /**
-     * Create a new product
+     * Create a new Product, where the supplied Product instance
+     * has no assigned id.
      *
-     * @param request the product creation request
+     * @param product the product without an id
      * @return the created product, with assigned id
      */
-    public Product create(final CreateProductRequest request) {
-        log.info("Creating product from request: {}", request);
-        final Product product = new Product(null, request.getTitle(), request.getArtist(), request.getLabel(),
-                request.getPriceGbp(), request.getPriceUsd(), request.getPriceEur(), request.getReleaseDate(),
-                request.getStore());
+    public Product create(final Product product) {
+        log.info("Creating Product from request: {}", product);
         return productRepository.save(product);
     }
 
@@ -67,41 +63,32 @@ public class ProductService {
      * @return the Product, if found
      */
     public Product fetch(final long id) {
-        log.info("Fetching product with id: {}", id);
+        log.info("Fetching Product with id: {}", id);
         final Optional<Product> productOpt = productRepository.findById(id);
         return productOpt.orElseThrow(() -> new MissingProductException(id));
     }
 
     /**
-     * Update the product fields with the specified request data
+     * Update the specified Product
      *
-     * @param id the id
-     * @param request the new field values for the product
+     * @param product the product, with new values supplied for all fields
      * @return the updated product
      */
-    public Product update(final long id, final UpdateProductRequest request) {
-        log.info("Updating product with id {} with request: {}", id, request);
-        final Optional<Product> productOpt = productRepository.findById(id);
-        final Product toUpdate = productOpt.orElseThrow(() -> new MissingProductException(id));
-        toUpdate.setTitle(request.getTitle());
-        toUpdate.setArtist(request.getArtist());
-        toUpdate.setLabel(request.getLabel());
-        toUpdate.setPriceGbp(request.getPriceGbp());
-        toUpdate.setPriceUsd(request.getPriceUsd());
-        toUpdate.setPriceEur(request.getPriceEur());
-        toUpdate.setReleaseDate(request.getReleaseDate());
-        toUpdate.setStore(request.getStore());
-        return productRepository.save(toUpdate);
+    public Product update(final Product product) {
+        log.info("Updating Product: {}", product);
+        final Long id = product.getId();
+        productRepository.findById(id).orElseThrow(() -> new MissingProductException(id));
+        return productRepository.save(product);
     }
 
     /**
-     * Find a list of product based on the supplied filter information
+     * Find a List of Product based on the supplied filter information
      *
      * @param filters the filters, including paging information
-     * @return the list of matching products
+     * @return the List of matching Products
      */
     public List<Product> find(final ProductFilters filters) {
-        log.info("Finding products matching filters: {}", filters);
+        log.info("Finding Products matching filters: {}", filters);
         final Specification<Product> specs = ProductSpecification.from(filters);
         final Sort sort = Sort.by(
                 filters.isAscending() ? Sort.Direction.ASC : Sort.Direction.DESC,

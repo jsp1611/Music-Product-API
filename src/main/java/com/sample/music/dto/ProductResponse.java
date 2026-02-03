@@ -1,5 +1,6 @@
 package com.sample.music.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -7,12 +8,14 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 /**
- * Represents a request to update a Product with *all* of
- * the supplied field values.
+ * Representation of Product suitable for display.
  */
 @Data
+@AllArgsConstructor
 @NoArgsConstructor
-public class UpdateProductRequest {
+public class ProductResponse {
+
+    private Long id;
 
     private String title;
 

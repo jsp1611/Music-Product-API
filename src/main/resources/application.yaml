@@ -21,3 +21,9 @@ spring:
       data-locations: classpath:data.sql
       mode: always
       continue-on-error: false
+  jackson:
+    serialization:
+      write-bigdecimal-as-plain: true
+    deserialization:
+      use-big-decimal-for-floats: true
+      fail-on-unknown-properties: true

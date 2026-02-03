@@ -1,6 +1,7 @@
 package com.sample.music.controller;
 
 import com.sample.music.dto.CreateProductRequest;
+import com.sample.music.dto.ProductResponse;
 import com.sample.music.dto.UpdateProductRequest;
 import com.sample.music.model.Product;
 import com.sample.music.model.ProductFilters;
@@ -21,53 +22,68 @@ import java.util.List;
 @RequestMapping("/api/products")
 public class ProductController implements IProductController {
 
-    private ProductService productService;
+    private final ProductService productService;
 
     @Autowired
-    public ProductController( ProductService productService) {
+    public ProductController(final ProductService productService) {
         this.productService = productService;
     }
 
     @PostMapping
     @Override
-    public ResponseEntity<Product> create(@RequestBody CreateProductRequest request) {
+    public ResponseEntity<ProductResponse> create(@RequestBody final CreateProductRequest request) {
         log.info("Creating new product from: {}", request);
-        return ResponseEntity.ok(productService.create(request));
+        final Product product = productService.create(new Product(null, request.getTitle(),
+                request.getArtist(), request.getLabel(), request.getPriceGbp(),
+                request.getPriceUsd(), request.getPriceEur(), request.getReleaseDate(),
+                request.getStore()));
+        return ResponseEntity.ok(toProductResponse(product));
     }
 
     @GetMapping("/{id}")
     @Override
-    public ResponseEntity<Product> fetch(@PathVariable long id) {
+    public ResponseEntity<ProductResponse> fetch(@PathVariable final long id) {
         log.info("Getting product with id: {}", id);
-        return ResponseEntity.ok(productService.fetch(id));
+        return ResponseEntity.ok(toProductResponse(productService.fetch(id)));
     }
 
     @PutMapping("/{id}")
     @Override
-    public ResponseEntity<Product> update(@PathVariable long id, @RequestBody UpdateProductRequest request) {
+    public ResponseEntity<ProductResponse> update(@PathVariable final long id,
+                                                  @RequestBody final UpdateProductRequest request) {
         log.info("Updating product with id {} with new field values: {}", id, request);
-        return ResponseEntity.ok(productService.update(id, request));
+        final Product product = new Product();
+        product.setId(id);
+        product.setTitle(request.getTitle());
+        product.setArtist(request.getArtist());
+        product.setLabel(request.getLabel());
+        product.setPriceGbp(request.getPriceGbp());
+        product.setPriceUsd(request.getPriceUsd());
+        product.setPriceEur(request.getPriceEur());
+        product.setReleaseDate(request.getReleaseDate());
+        product.setStore(request.getStore());
+        return ResponseEntity.ok(toProductResponse(productService.update(product)));
     }
 
     @DeleteMapping("/{id}")
     @Override
-    public ResponseEntity<Product> delete(@PathVariable long id) {
+    public ResponseEntity<ProductResponse> delete(@PathVariable final long id) {
         log.info("Deleting product with id {}", id);
-        return ResponseEntity.ok(productService.delete(id));
+        return ResponseEntity.ok(toProductResponse(productService.delete(id)));
     }
 
     @GetMapping
     @Override
-    public ResponseEntity<List<Product>> find(@RequestParam(required = false) String title,
-                                            @RequestParam(required = false) String artist,
-                                            @RequestParam(required = false) String label,
-                                            @RequestParam(required = false) String store,
-                                            @RequestParam(required = false) LocalDate startRelease,
-                                            @RequestParam(required = false) LocalDate endRelease,
-                                            @RequestParam(required = false) Integer pageSize,
-                                            @RequestParam(required = false) Integer pageNumber,
-                                            @RequestParam(required = false) String sort,
-                                            @RequestParam(required = false) Boolean asc) {
+    public ResponseEntity<List<ProductResponse>> find(@RequestParam(required = false) final String title,
+                                                      @RequestParam(required = false) final String artist,
+                                                      @RequestParam(required = false) final String label,
+                                                      @RequestParam(required = false) final String store,
+                                                      @RequestParam(required = false) final LocalDate startRelease,
+                                                      @RequestParam(required = false) final LocalDate endRelease,
+                                                      @RequestParam(required = false) final Integer pageSize,
+                                                      @RequestParam(required = false) final Integer pageNumber,
+                                                      @RequestParam(required = false) final String sort,
+                                                      @RequestParam(required = false) final Boolean asc) {
         log.info("Finding products matching supplied filters");
         final ProductFilters filters = ProductFilters.builder()
                 .title(title)
@@ -81,7 +97,17 @@ public class ProductController implements IProductController {
                 .sort(sort)
                 .asc(asc)
                 .build();
-        return ResponseEntity.ok(productService.find(filters));
+        return ResponseEntity.ok(toProductResponseList(productService.find(filters)));
+    }
+
+    private static ProductResponse toProductResponse(final Product product) {
+        return new ProductResponse(product.getId(), product.getTitle(), product.getArtist(),
+                product.getLabel(), product.getPriceGbp(), product.getPriceUsd(),
+                product.getPriceEur(), product.getReleaseDate(), product.getStore());
+    }
+
+    private static List<ProductResponse> toProductResponseList(final List<Product> products)  {
+        return products.stream().map(ProductController::toProductResponse).toList();
     }
 
 }
