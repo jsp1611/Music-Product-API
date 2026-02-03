@@ -5,6 +5,7 @@ import com.sample.music.dto.ProductResponse;
 import com.sample.music.dto.UpdateProductRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
@@ -31,20 +32,55 @@ public interface IProductController {
     ResponseEntity<ProductResponse> create(@RequestBody(required = true) CreateProductRequest request);
 
     @Operation(summary = "Fetch a Product")
+    @Parameters(value = {
+            @Parameter(name = "id", description = "Product id", example = "123")
+    })
     @ApiResponses(
             @ApiResponse(responseCode = "200", description = "Product found",
-                    content = @Content(mediaType = "application/json"))
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ProductResponse.class)))
     )
     ResponseEntity<ProductResponse> fetch(@Parameter(required = true) long id);
 
     @Operation(summary = "Update a Product")
+    @Parameters(value = {
+            @Parameter(name = "id", description = "Product id", example = "123")
+    })
+    @ApiResponses(
+            @ApiResponse(responseCode = "200", description = "Product updated",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ProductResponse.class)))
+    )
     ResponseEntity<ProductResponse> update(@Parameter(required = true) long id,
                                            @RequestBody(required = true) UpdateProductRequest request);
 
     @Operation(summary = "Delete a Product")
+    @Parameters(value = {
+            @Parameter(name = "id", description = "Product id", example = "123")
+    })
+    @ApiResponses(
+            @ApiResponse(responseCode = "200", description = "Product deleted",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ProductResponse.class)))
+    )
     ResponseEntity<ProductResponse> delete(@Parameter(required = true) long id);
 
     @Operation(summary = "Find products based upon supplied filters")
+    @Parameters(value = {
+            @Parameter(name = "title", description = "Product title", example = "Some CD Name"),
+            @Parameter(name = "artist", description = "Product artist", example = "Aural Damage"),
+            @Parameter(name = "label", description = "Product label", example = "Warp Records"),
+            @Parameter(name = "store", description = "Product store", example = "Core Store"),
+            @Parameter(name = "startRelease", description = "Start release date", example = "2020-12-15"),
+            @Parameter(name = "endRelease", description = "End release date", example = "2021-01-17"),
+            @Parameter(name = "pageSize", description = "Page size for results", example = "10"),
+            @Parameter(name = "pageNumber", description = "Page number for results", example = "0"),
+            @Parameter(name = "sort", description = "Name of field to sort on", example = "title"),
+            @Parameter(name = "asc", description = "Sort order ascending", example = "true")
+    })
     @ApiResponses(
             @ApiResponse(responseCode = "200", description = "Products found",
                     content = @Content(mediaType = "application/json"))
