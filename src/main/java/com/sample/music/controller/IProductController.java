@@ -1,6 +1,7 @@
 package com.sample.music.controller;
 
 import com.sample.music.dto.CreateProductRequest;
+import com.sample.music.dto.ErrorDetailResponse;
 import com.sample.music.dto.ProductResponse;
 import com.sample.music.dto.UpdateProductRequest;
 import io.swagger.v3.oas.annotations.Operation;
@@ -11,6 +12,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 
 import java.time.LocalDate;
@@ -20,14 +22,21 @@ import java.util.List;
  * Interface for actions related to <code>Product</code>, containing Swagger annotations
  * used to generate the UI.
  */
+@Tag(name = "Products API")
 public interface IProductController {
 
     @Operation(summary = "Create a Product")
-    @ApiResponses(
+    @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Product created",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ProductResponse.class)))
+                            schema = @Schema(implementation = ProductResponse.class))),
+            @ApiResponse(responseCode = "400", description = "Bad request",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorDetailResponse.class)
+                    ))
+            }
     )
     ResponseEntity<ProductResponse> create(@RequestBody(required = true) CreateProductRequest request);
 
@@ -35,11 +44,16 @@ public interface IProductController {
     @Parameters(value = {
             @Parameter(name = "id", description = "Product id", example = "123")
     })
-    @ApiResponses(
+    @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Product found",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ProductResponse.class)))
+                            schema = @Schema(implementation = ProductResponse.class))),
+            @ApiResponse(responseCode = "404", description = "Product not found",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorDetailResponse.class)))
+            }
     )
     ResponseEntity<ProductResponse> fetch(@Parameter(required = true) long id);
 
@@ -47,11 +61,20 @@ public interface IProductController {
     @Parameters(value = {
             @Parameter(name = "id", description = "Product id", example = "123")
     })
-    @ApiResponses(
+    @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Product updated",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ProductResponse.class)))
+                            schema = @Schema(implementation = ProductResponse.class))),
+            @ApiResponse(responseCode = "404", description = "Product not found",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorDetailResponse.class))),
+            @ApiResponse(responseCode = "400", description = "Bad request",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorDetailResponse.class)))
+            }
     )
     ResponseEntity<ProductResponse> update(@Parameter(required = true) long id,
                                            @RequestBody(required = true) UpdateProductRequest request);
@@ -60,11 +83,16 @@ public interface IProductController {
     @Parameters(value = {
             @Parameter(name = "id", description = "Product id", example = "123")
     })
-    @ApiResponses(
+    @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Product deleted",
                     content = @Content(
                             mediaType = "application/json",
-                            schema = @Schema(implementation = ProductResponse.class)))
+                            schema = @Schema(implementation = ProductResponse.class))),
+            @ApiResponse(responseCode = "404", description = "Product not found",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ErrorDetailResponse.class)))
+            }
     )
     ResponseEntity<ProductResponse> delete(@Parameter(required = true) long id);
 
