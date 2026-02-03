@@ -17,8 +17,8 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Service layer between data submitted via controllers and the repository
- * layer, which uses JPA.
+ * Service layer between <code>Product</code> data submitted via controllers
+ * and the repository layer.
  */
 @Slf4j
 @Service
@@ -31,10 +31,10 @@ public class ProductService {
     }
 
     /**
-     * Delete a product with the specified id
+     * Delete a <code>Product</code> with the specified id
      *
-     * @param id the id of the Product
-     * @return the product that was deleted
+     * @param id the id of the <code>Product</code>
+     * @return the <code>Product</code> that was deleted
      */
     public Product delete(final long id) {
         log.info("Deleting Product with id: {}", id);
@@ -45,11 +45,11 @@ public class ProductService {
     }
 
     /**
-     * Create a new Product, where the supplied Product instance
+     * Create a new <code>Product</code>, where the supplied <code>Product</code> instance
      * has no assigned id.
      *
-     * @param product the product without an id
-     * @return the created product, with assigned id
+     * @param product the <code>Product</code> without an id
+     * @return the created <code>Product</code>, with assigned id
      */
     public Product create(final Product product) {
         log.info("Creating Product from request: {}", product);
@@ -57,10 +57,10 @@ public class ProductService {
     }
 
     /**
-     * Fetch a product with the specified id
+     * Fetch a <code>Product<code> with the specified id
      *
-     * @param id the product id
-     * @return the Product, if found
+     * @param id the <code>Product</code> id
+     * @return the <code>Product</code>, if found
      */
     public Product fetch(final long id) {
         log.info("Fetching Product with id: {}", id);
@@ -69,10 +69,10 @@ public class ProductService {
     }
 
     /**
-     * Update the specified Product
+     * Update the specified <code>Product</code>
      *
-     * @param product the product, with new values supplied for all fields
-     * @return the updated product
+     * @param product the <code>Product</code>, with new values supplied for all fields
+     * @return the updated <code>Product</code>
      */
     public Product update(final Product product) {
         log.info("Updating Product: {}", product);
@@ -82,10 +82,10 @@ public class ProductService {
     }
 
     /**
-     * Find a List of Product based on the supplied filter information
+     * Find a <code>List</code></> of <code>Product</code> based on the supplied filter information
      *
      * @param filters the filters, including paging information
-     * @return the List of matching Products
+     * @return the <code>List</code> of matching <code>Product</code>
      */
     public List<Product> find(final ProductFilters filters) {
         log.info("Finding Products matching filters: {}", filters);

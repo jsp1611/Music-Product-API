@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 /**
- * A Product available within a store.
+ * A <code>Product</code> available within a store.
  */
 @Entity
 @Table(name = "PRODUCTS")

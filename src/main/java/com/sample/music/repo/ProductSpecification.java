@@ -9,7 +9,10 @@ import java.util.List;
 import static java.lang.String.format;
 
 /**
- * Converts our own filters into JPA Specification instances
+ * Utility class that converts our own <code>FieldFilter</code> instances wrapped by a
+ * <code>ProductFilters</code> instance into JPA <code>Specification</code> instances, and then
+ * combines those <code>Specification</code> instances into a single instance for use in repository
+ * queries.
  */
 public class ProductSpecification {
 
@@ -41,10 +44,11 @@ public class ProductSpecification {
     }
 
     /**
-     * Convert a set of product filters into a Specification, for use in JPA queries.
+     * Convert a <code>ProductFilters</code> instance into a <code>Specification</code>,
+     * for use in JPA queries.
      *
-     * @param filters the filters
-     * @return the specification wrapping the conditions
+     * @param filters the filters wrapped in a <code>ProductFilters</code> instance
+     * @return the <code>Specification</code> wrapping the conditions
      */
     public static Specification<Product> from(final ProductFilters filters) {
         final List<Specification<Product>> specifications = new ArrayList<>();

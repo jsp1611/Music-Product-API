@@ -6,7 +6,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
 /**
- * Interface for system controller, containing swagger annotations.
+ * Interface for system controller, containing Swagger annotations for use in
+ * generating the UI.
  */
 public interface ISystemController {
 

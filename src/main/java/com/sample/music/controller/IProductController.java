@@ -6,6 +6,7 @@ import com.sample.music.dto.UpdateProductRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -15,14 +16,17 @@ import java.time.LocalDate;
 import java.util.List;
 
 /**
- * Interface for actions related to Product, containing swagger annotations
+ * Interface for actions related to <code>Product</code>, containing Swagger annotations
+ * used to generate the UI.
  */
 public interface IProductController {
 
     @Operation(summary = "Create a Product")
     @ApiResponses(
             @ApiResponse(responseCode = "201", description = "Product created",
-                    content = @Content(mediaType = "application/json"))
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = ProductResponse.class)))
     )
     ResponseEntity<ProductResponse> create(@RequestBody(required = true) CreateProductRequest request);
 

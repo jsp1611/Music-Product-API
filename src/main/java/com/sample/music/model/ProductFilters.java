@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A series of filters for a Product, and associated paging instructions
+ * A series of filters for a <code>Product</code>, and associated paging instructions
  */
 @Data
 @AllArgsConstructor

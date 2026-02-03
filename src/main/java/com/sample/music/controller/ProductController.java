@@ -8,6 +8,7 @@ import com.sample.music.model.ProductFilters;
 import com.sample.music.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,7 +16,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 /**
- * Product controller for accessing and managing Product items
+ * <code>Product</code> controller for accessing and managing <code>Product</code> items
  */
 @Slf4j
 @RestController
@@ -37,7 +38,7 @@ public class ProductController implements IProductController {
                 request.getArtist(), request.getLabel(), request.getPriceGbp(),
                 request.getPriceUsd(), request.getPriceEur(), request.getReleaseDate(),
                 request.getStore()));
-        return ResponseEntity.ok(toProductResponse(product));
+        return ResponseEntity.status(HttpStatus.CREATED).body(toProductResponse(product));
     }
 
     @GetMapping("/{id}")
